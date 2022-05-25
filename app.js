@@ -22,7 +22,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  secret: '12345678910111213141',
+  secret: '12345678910111213abc',
   resave: false,
   saveUninitialized: true
 }));
@@ -33,7 +33,7 @@ app.use(session({
 app.get('/', function (req, res) {
   var conocido = Boolean(req.session.nombre);
   res.render('index', {
-    title: 'Sessiones en Express.js',
+    title: 'Sesiones en Express.js',
     conocido: conocido,
     nombre: req.session.nombre
   });
@@ -44,6 +44,10 @@ app.post('/ingresar', function (req, res) {
     req.session.nombre = req.body.nombre
   }
   res.redirect('/');
+});
+app.get('/salir', function (req, res) {
+  req.session.destroy();
+  res.redirect ('/');
 });
 
 
